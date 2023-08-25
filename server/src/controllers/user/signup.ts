@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { hash } from "../../utils/helpers/hash";
-import jwt from "jsonwebtoken";
 import { userService } from "../../services/user";
 import { config } from "../../config/config";
+import { jwt } from "../../utils/helpers/jwt";
 
 export const signup = async (req: Request, res: Response) => {
     const { email, name, password } = req.body;
@@ -24,20 +24,19 @@ export const signup = async (req: Request, res: Response) => {
         const user = await userService.create(name, email, hashedPassword);
         //generate jwt
 
-        const token = jwt.sign(
+        const token = jwt.generateJWT(
             {
                 id: user.id,
                 email: user.email,
             },
-            config.JWT_SECRET!,
             {
-                expiresIn: config.JWT_EXPIRATION!,
+                expiresIn: config.JWT_EXPIRATION,
             }
         );
 
-        res.cookie(process.env.COOKIE_NAME!, token, {
+        res.cookie(config.COOKIE_NAME, token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV! === "prod",
+            secure: config.NODE_ENV === "prod",
         });
         return res.status(201).json({
             success: true,
