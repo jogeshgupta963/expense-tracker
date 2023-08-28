@@ -4,7 +4,7 @@ import { expenseService } from "../../services/expenses";
 export async function getAll(req: Request, res: Response) {
     try {
         const expense = await expenseService.getAll({});
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             data: expense,
         });
