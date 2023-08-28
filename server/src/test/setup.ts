@@ -9,7 +9,13 @@ beforeAll(async () => {
     mongoose.set("strictQuery", true);
     await mongoose.connect(uri);
 });
+beforeEach(async () => {
+    const collections = await mongoose.connection.db.collections();
 
+    for (let collection of collections) {
+        await collection.drop();
+    }
+});
 afterAll(async () => {
     mongoServer.stop();
     await mongoose.connection.close();

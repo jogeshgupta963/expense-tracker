@@ -43,7 +43,6 @@ export const signup = async (req: Request, res: Response) => {
             data: user,
         });
     } catch (err) {
-        console.log(err);
         if (err instanceof Error) {
             res.status(400).json({
                 success: false,
