@@ -17,5 +17,7 @@ export async function signupUser(
             name,
         })
         .expect(201);
+    // console.log(data.get("Set-Cookie"));
+    data.body.cookie = data.get("Set-Cookie");
     return data.body;
 }

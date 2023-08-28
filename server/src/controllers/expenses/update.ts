@@ -6,7 +6,7 @@ export async function updateExpense(req: Request, res: Response) {
         const expense = await expenseService.update(req.params.id, {
             ...req.body,
         });
-        return res.status(201).json({
+        return res.status(204).json({
             success: true,
             data: expense,
         });
